@@ -29,3 +29,24 @@ jobs:
           severity: HIGH,CRITICAL
           exit-code: "1"
           format: table
+
+  image-scan:
+    name: Scan Docker Image for Vulnerabilities
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build --pull -t cloudshield-api:${{ github.sha }} .
+
+      - name: Run Trivy image scan
+        uses: aquasecurity/trivy-action@0.35.0
+        with:
+          scan-type: image
+          image-ref: cloudshield-api:${{ github.sha }}
+          scanners: vuln
+          severity: HIGH,CRITICAL
+          exit-code: "1"
+          format: table
