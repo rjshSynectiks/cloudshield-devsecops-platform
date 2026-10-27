@@ -27,3 +27,6 @@ crash.log
 .idea/
 .DS_Store
 Thumbs.db
+# Security scan reports
+trivy-report.txt
+trivy-image-report.json
