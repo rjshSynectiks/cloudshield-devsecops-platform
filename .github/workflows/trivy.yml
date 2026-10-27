@@ -1,4 +1,3 @@
-```yaml
 name: CloudShield Trivy Security Scan
 
 on:
@@ -30,44 +29,3 @@ jobs:
           severity: HIGH,CRITICAL
           exit-code: "1"
           format: table
-
-**What this does:**
-- `vuln` — checks dependencies for known vulnerabilities.
-- `misconfig` — checks for certain security misconfigurations.
-- `secret` — looks for exposed secrets.
-- `HIGH,CRITICAL` — focuses on high- and critical-severity findings.
-- `exit-code: "1"` — fails the workflow if matching findings are detected.
-
-The workflow uses a version tag for the Trivy action. For stronger supply-chain security, we can pin third-party actions to verified full commit SHAs in a later step.
-
-### Step 3 — Save and test
-
-Save the file using **Ctrl + S**.
-
-In the VS Code terminal, run:
-
-```powershell
-git status
-```
-
-You should see `.github/workflows/trivy.yml` as an untracked file.
-
-Then run:
-
-```powershell
-git add .github/workflows/trivy.yml
-git commit -m "Add Trivy security scanning"
-git push
-```
-
-### Step 4 — Verify the scan
-
-Open your GitHub repository:
-
-[CloudShield GitHub Repository](https://github.com/rjshSynectiks/cloudshield-devsecops-platform?utm_source=chatgpt.com)
-
-Select **Actions** and open **CloudShield Trivy Security Scan**.
-
-A green check means the scan passed. If it fails because it detects a vulnerability or misconfiguration, **don't disable the scan**—we'll inspect the finding and decide how to fix it.
-
-**For now, complete Steps 1–3 and tell me what you see in GitHub Actions.** We'll proceed one step at a time.
