@@ -30,3 +30,6 @@ Thumbs.db
 # Security scan reports
 trivy-report.txt
 trivy-image-report.json
+
+# Terraform generated files
+**/project-info.txt
