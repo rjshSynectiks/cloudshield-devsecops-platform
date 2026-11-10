@@ -1,13 +1,18 @@
-FROM python:3.13-slim
+ARG PYTHON_BASE=python:3.13-slim
+FROM ${PYTHON_BASE}
 
+# Update Debian packages to include available security fixes
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && rm -rf /var/lib/apt/lists/*
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-COPY requirements-lock.txt .
+COPY requirements.txt .
 
-RUN python -m pip install --no-cache-dir -r requirements-lock.txt \
+RUN python -m pip install --no-cache-dir -r requirements.txt \
     && rm -rf /usr/local/lib/python3.13/site-packages/pip \
               /usr/local/lib/python3.13/site-packages/pip-*.dist-info \
               /usr/local/bin/pip \
