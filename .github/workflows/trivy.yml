@@ -1,3 +1,4 @@
+
 name: CloudShield Trivy Security Scan
 
 on:
@@ -7,13 +8,15 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: read
+  security-events: write
 
 jobs:
   filesystem-scan:
-    name: Scan Repository for Vulnerabilities
+    name: Repository Security Scan
     runs-on: ubuntu-latest
 
     steps:
@@ -28,10 +31,20 @@ jobs:
           scanners: vuln,misconfig,secret
           severity: HIGH,CRITICAL
           exit-code: "1"
-          format: table
+          format: sarif
+          output: trivy-filesystem.sarif
+          ignore-unfixed: true
+
+      - name: Upload filesystem scan report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-filesystem-report
+          path: trivy-filesystem.sarif
+          if-no-files-found: ignore
 
   image-scan:
-    name: Scan Docker Image for Vulnerabilities
+    name: Docker Image Security Scan
     runs-on: ubuntu-latest
 
     steps:
@@ -49,4 +62,14 @@ jobs:
           scanners: vuln
           severity: HIGH,CRITICAL
           exit-code: "1"
-          format: table
+          format: sarif
+          output: trivy-image.sarif
+          ignore-unfixed: true
+
+      - name: Upload image scan report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-image-report
+          path: trivy-image.sarif
+          if-no-files-found: ignore
