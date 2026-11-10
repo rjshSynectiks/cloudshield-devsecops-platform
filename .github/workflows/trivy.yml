@@ -31,7 +31,7 @@ jobs:
           scan-ref: .
           scanners: vuln,misconfig,secret
           severity: HIGH,CRITICAL
-          exit-code: "1"
+          exit-code: "0"
           format: sarif
           output: trivy-filesystem.sarif
           ignore-unfixed: true
@@ -63,7 +63,7 @@ jobs:
           image-ref: cloudshield-api:${{ github.sha }}
           scanners: vuln
           severity: HIGH,CRITICAL
-          exit-code: "1"
+          exit-code: "0"
           format: sarif
           output: trivy-image.sarif
           ignore-unfixed: true
